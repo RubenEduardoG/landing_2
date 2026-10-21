@@ -187,4 +187,5 @@ footer { padding: 30px 0; border-top: 1px solid #ffffff20; }
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }
 }
-\n/* Tabla proporcionada por el cliente: imagen completa, sin recortes */\n.media-table img { object-fit: contain; }\n
+/* Tabla proporcionada por el cliente: imagen completa, sin recortes */
+.media-table img { object-fit: contain; }

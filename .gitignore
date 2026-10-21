@@ -1,13 +1,10 @@
 node_modules/
 dist/
 .env
-<<<<<<< HEAD
 .env.*
 !.env.example
 .vercel/
 .git/
 *.log
 .DS_Store
-=======
 .env.local
->>>>>>> origin/main
