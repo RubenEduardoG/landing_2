@@ -40,9 +40,9 @@ const testimonialCards = () =>
     <article class="testimonial">
       ${testimonialMedia(t)}
       <div class="card-content">
-        <span class="result">${t.result}</span>
         <h3>${t.name}</h3>
         <p>“${t.quote}”</p>
+        <div class="testimonial-result"><span>Plusvalía reportada</span><strong>${t.result}</strong></div>
       </div>
     </article>`
   ).join('');
@@ -86,10 +86,6 @@ export function landingHTML() {
 </header>
 <main>
   <section id="inicio" class="hero wrap">
-    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> OPORTUNIDAD INMOBILIARIA · MÉRIDA, YUCATÁN</p>
-    <h1>GENERA INGRESOS <em>MIENTRAS DUERMES.</em></h1>
-    <p class="lead">Invierte en el norte de Mérida con información clara sobre la estructura legal del proyecto y opciones desde <strong>$250,000 MXN de enganche.</strong></p>
-
     <div class="hero-video media" style="aspect-ratio:16/9">
       <video id="vsl" autoplay muted playsinline preload="metadata" poster="${A}imagenes/construccion.webp" aria-label="Presentación del proyecto">
         <source src="${A}videos/vsl.mp4" type="video/mp4">
@@ -99,7 +95,11 @@ export function landingHTML() {
       <div class="video-label">PRESENTACIÓN DEL PROYECTO</div>
     </div>
 
+    <p class="lead">Invierte en el norte de Mérida en el proyecto donde más de 50 familias regias han invertido, con avance de obra real y ubicación privilegiada.</p>
+
     <div class="center">${cta()}</div>
+
+    <h1>INVIERTE EN EL <em>NORTE DE MÉRIDA.</em></h1>
 
     <div class="hero-facts">
       <div><strong>15%</strong><span>Plusvalía histórica declarada*</span></div>
@@ -157,21 +157,33 @@ export function landingHTML() {
     </div>
   </section>
 
-  <section class="section wrap">
-    <div class="split">
-      <div>
-        <p class="eyebrow">04 / TRANSPARENCIA</p>
-        <h2>¿CÓMO SABES QUE TU DINERO <em>ESTÁ PROTEGIDO?</em></h2>
-        <p>Antes de invertir, solicita la documentación legal y contractual correspondiente. El equipo puede explicarte los mecanismos del proyecto y resolver tus dudas.</p>
-        <ul class="checks">
-          <li>Documentación contractual para revisión</li>
-          <li>Información sobre el desarrollador CONSUR</li>
-          <li>Asesoría para comprender condiciones y riesgos</li>
-        </ul>
-        <p class="fine">Las características legales específicas deben verificarse con los documentos oficiales del desarrollo.</p>
-        ${cta()}
+  <section class="section security-section">
+    <div class="wrap">
+      <p class="eyebrow">04 / SEGURIDAD DE TU INVERSIÓN</p>
+      <h2>4 RAZONES PARA CONOCER <em>LA PROTECCIÓN DE TU INVERSIÓN.</em></h2>
+      <div class="security-grid">
+        <article class="security-card"><span>01</span><h3>Contrato y documentación</h3><p>Solicita y revisa el contrato antes de decidir. Cualquier registro ante PROFECO debe comprobarse documentalmente.</p></article>
+        <article class="security-card"><span>02</span><h3>Desarrollador CONSUR</h3><p>El material del proyecto señala 15 años de experiencia del desarrollador.</p></article>
+        <article class="security-card"><span>03</span><h3>Avance y ubicación</h3><p>Conoce el estado de la obra, la ubicación y las condiciones de entrega.</p></article>
+        <article class="security-card"><span>04</span><h3>Acompañamiento</h3><p>Resuelve tus dudas y revisa las condiciones comerciales y los riesgos.</p></article>
       </div>
-      ${media({ src: `${A}imagenes/consur-temozon.jpg`, alt: 'Imagen del proyecto inmobiliario BOSCO en Mérida', ratio: '4/3', cls: 'media-feature', label: 'Imagen pendiente: consur-temozon.jpg' })}
+      <p class="fine">La información legal y comercial debe verificarse con documentos oficiales.</p>
+      <div class="center spaced">${cta()}</div>
+    </div>
+  </section>
+
+  <section class="section soft" id="beneficios">
+    <div class="wrap">
+      <p class="eyebrow red">EL PROYECTO</p>
+      <h2>TODO LO QUE OBTIENES <em>AL INVERTIR EN ESTE PROYECTO.</em></h2>
+      <p class="section-intro">Un departamento que trabaja por ti, con acompañamiento durante el proceso.</p>
+      <div class="benefits-grid">
+        <article class="info"><span>01</span><h3>Tu departamento en preventa</h3><p>Opciones de enganche desde $250,000 MXN, según las condiciones comerciales del proyecto.</p></article>
+        <article class="info"><span>02</span><h3>Plusvalía histórica</h3><p>El material comercial reporta 15% de plusvalía histórica. Los resultados pasados no garantizan rendimientos futuros.</p></article>
+        <article class="info"><span>03</span><h3>Departamento amueblado y equipado</h3><p>Consulta con el equipo el equipamiento, las condiciones de entrega y la disponibilidad de las unidades.</p></article>
+        <article class="info"><span>04</span><h3>Acompañamiento de Marisol</h3><p>Asesoría durante el proceso de inversión para resolver dudas y conocer los siguientes pasos.</p></article>
+        <article class="info benefit-wide"><span>05</span><h3>Acceso a recorrido en obra</h3><p>Solicita información sobre visitas y avances de construcción disponibles.</p></article>
+      </div>
     </div>
   </section>
 
@@ -181,9 +193,7 @@ export function landingHTML() {
       <div>
         <p class="eyebrow red">05 / ASESORÍA</p>
         <h2>CONOCE A <em>MARISOL CARO.</em></h2>
-        <p>Asesora en inversión inmobiliaria. Según la información compartida por el equipo, ha acompañado a más de 60 familias y cuenta con experiencia ayudando a invertir en bienes raíces.</p>
-        <p>Esta presentación y sus testimonios forman parte del material aprobado proporcionado para BOSCO.</p>
-        <p class="fine">Pendiente: confirmar responsable de la agenda para la campaña de Agencia Bosco Blue.</p>
+        <p>Asesora en inversión inmobiliaria. Ha acompañado a más de 60 familias y cuenta con experiencia ayudando a invertir en bienes raíces.</p>
         ${cta()}
       </div>
     </div>
@@ -192,7 +202,7 @@ export function landingHTML() {
   <section class="section wrap">
     <p class="eyebrow">06 / AVANCE DE OBRA</p>
     <h2>EL PROYECTO AVANZA. <em>TU INVERSIÓN, TAMBIÉN.</em></h2>
-    <p class="section-intro">Imágenes disponibles del proyecto. El cliente debe aportar 3–4 fotografías actuales con fecha y etapa de construcción confirmadas.</p>
+
     <div class="gallery">
       ${media({ src: `${A}imagenes/construccion.webp`, alt: 'Construcción del proyecto BOSCO', ratio: '4/3', label: 'Imagen pendiente: construccion.webp' })}
       ${media({ src: `${A}imagenes/consur-mio.jpg`, alt: 'Imagen de desarrollo CONSUR', ratio: '4/3', label: 'Imagen pendiente: consur-mio.jpg' })}
@@ -201,7 +211,7 @@ export function landingHTML() {
     <div class="stats">
       <div><strong>DIC 2028</strong><span>Entrega estimada, sujeta a aprobación del cliente</span></div>
       <div><strong>CONSUR</strong><span>Desarrollador indicado</span></div>
-      <div><strong>PENDIENTE</strong><span>Etapa actual de obra por confirmar</span></div>
+
     </div>
   </section>
 
