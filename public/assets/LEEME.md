@@ -1,1 +1,5 @@
-Medios de BOSCO. vsl.mp4 contiene el VSL completo entregado, optimizado a 720p para web. Guardar el original de 1080p por separado. Para GHL subir a Media Storage y completar las URLs públicas en config-ghl.json. No se sube este ZIP directamente al constructor.
+Medios de BOSCO usados por la segunda landing.
+- videos/vsl.mp4: VSL completa (720p, faststart). Se reemplaza por VTurb en src/vsl-embed.js.
+- imagenes/obra/: cuadros del avance de obra extraídos de la VSL.
+- imagenes/vsl-poster.webp y og-bosco.jpg: cuadro de la VSL.
+Conservar el original 1080p de la VSL por separado.

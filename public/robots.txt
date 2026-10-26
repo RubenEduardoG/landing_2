@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /registro
+Disallow: /agenda
+Disallow: /gracias
+Disallow: /no-califica

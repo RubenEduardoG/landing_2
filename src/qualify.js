@@ -1,68 +1,50 @@
-import { CONFIG, ROUTES } from './config.js';
-import { NO_CAPITAL, RESIDENCE_GOAL } from './content.js';
+// Reglas del formulario sin dependencias del DOM (se prueban con `npm test`).
 
-const PHONE_MESSAGE = 'Ingresa un número de WhatsApp con 10 a 15 dígitos.';
+import { NO_CAPITAL, RESIDENCE_GOAL, PHONE_COUNTRIES } from './content.js';
 
-export function isValidPhone(value) {
-  const digits = value.replace(/\D/g, '');
-  return digits.length >= 10 && digits.length <= 15;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+export function isValidEmail(value = '') {
+  const v = value.trim();
+  return v.length <= 254 && EMAIL_RE.test(v);
 }
 
-// Regla de calificación: sin capital disponible => no califica.
-export function evaluateQualification(data) {
-  if (data.get('capital') === NO_CAPITAL) return { qualified: false };
-  return { qualified: true, needsClarification: data.get('objetivo') === RESIDENCE_GOAL };
+export function isValidName(value = '') {
+  const v = value.trim();
+  return v.length >= 3 && v.length <= 100 && /\p{L}/u.test(v);
 }
 
-// Captura UTMs para atribución. Se conservan solo si el visitante acepta (ver consentimiento).
-export function getUtmParams(search = location.search) {
-  const params = new URLSearchParams(search);
-  const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-  return Object.fromEntries(
-    keys.filter((k) => params.get(k)).map((k) => [k, params.get(k).slice(0, 120)])
-  );
+/**
+ * Normaliza un teléfono a formato E.164 (+521234567890) según el país elegido.
+ * Devuelve '' si no es válido.
+ */
+export function normalizePhone(country, raw = '') {
+  let digits = String(raw).replace(/\D/g, '');
+  const entry = PHONE_COUNTRIES.find((c) => c.code === country);
+
+  if (!entry || entry.code === 'OTRO') {
+    // Otro país: se espera el número completo con lada internacional.
+    return digits.length >= 8 && digits.length <= 15 ? `+${digits}` : '';
+  }
+
+  if (entry.code === 'MX') {
+    if (digits.length === 13 && digits.startsWith('521')) digits = digits.slice(3); // formato móvil antiguo
+    else if (digits.length === 12 && digits.startsWith('52')) digits = digits.slice(2);
+    return digits.length === 10 ? `+52${digits}` : '';
+  }
+
+  // US / CA
+  if (digits.length === 11 && digits.startsWith('1')) digits = digits.slice(1);
+  return digits.length === 10 ? `+1${digits}` : '';
 }
 
-function renderCalendar(calendar) {
-  if (!CONFIG.ghlCalendarUrl) return;
-  const slot = calendar.querySelector('.calendar-slot');
-  const frame = document.createElement('iframe');
-  frame.src = CONFIG.ghlCalendarUrl;
-  frame.title = 'Calendario para agendar asesoría de BOSCO';
-  frame.loading = 'lazy';
-  frame.className = 'calendar-frame';
-  slot.replaceChildren(frame);
+export function splitName(full = '') {
+  const parts = full.trim().replace(/\s+/g, ' ').split(' ');
+  return { first_name: parts.shift() || '', last_name: parts.join(' ') };
 }
 
-export function bindQualificationForm(root) {
-  const form = root.querySelector('#qualify');
-  const calendar = root.querySelector('#calendar');
-  const clarify = root.querySelector('#clarify');
-  const phone = form.elements.whatsapp;
-
-  phone.addEventListener('input', () => phone.setCustomValidity(''));
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    phone.setCustomValidity(isValidPhone(phone.value) ? '' : PHONE_MESSAGE);
-    if (!form.reportValidity()) return;
-
-    const result = evaluateQualification(new FormData(form));
-    if (!result.qualified) {
-      location.assign(ROUTES.notQualified);
-      return;
-    }
-
-    // Los datos no se envían ni se registran aquí hasta configurar GHL.
-    form.hidden = true;
-    clarify.hidden = !result.needsClarification;
-    renderCalendar(calendar);
-    calendar.hidden = false;
-    calendar.scrollIntoView({
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-      block: 'start',
-    });
-    calendar.focus({ preventScroll: true });
-  });
+/** Regla de calificación: sin capital disponible => no califica. */
+export function evaluateQualification(answers) {
+  if (answers.capital === NO_CAPITAL) return { qualified: false, reason: 'sin_capital' };
+  return { qualified: true, needsClarification: answers.objetivo === RESIDENCE_GOAL };
 }
