@@ -43,25 +43,32 @@ export const HERO = {
 };
 
 export const BENEFITS = [
+  // La tarjeta destacada va primero: en escritorio ocupa la columna izquierda completa y en móvil aparece arriba.
   {
+    highlight: true,
+    chip: 'Dato histórico',
+    figure: '15',
+    title: 'Plusvalía en los últimos 4 años',
+    text: 'Es el crecimiento de valor que ha registrado el proyecto en ese periodo.',
+    note: 'La plusvalía pasada no garantiza rendimientos futuros.',
+  },
+  {
+    icon: 'llave',
     title: 'Tu departamento en preventa',
     text: 'Enganche desde $250,000 MXN. El precio aumenta conforme avanza la obra, por eso entrar en preventa es la mejor etapa.',
   },
   {
-    title: 'Plusvalía histórica del 15%',
-    text: 'El proyecto ha registrado una plusvalía del 15% en los últimos cuatro años.',
-    note: 'La plusvalía pasada no garantiza rendimientos futuros.',
-    highlight: true,
-  },
-  {
+    icon: 'sillon',
     title: 'Amueblado y equipado',
     text: 'Se entrega listo para habitarlo, rentarlo o publicarlo en plataformas de renta vacacional.',
   },
   {
+    icon: 'chat',
     title: `Acompañamiento de ${ADVISOR.name.split(' ')[0]}`,
     text: 'Te guía desde la firma del contrato hasta la entrega. Resuelve tus dudas y trámites por WhatsApp.',
   },
   {
+    icon: 'casa',
     title: 'Recorrido en obra',
     text: 'Puedes visitar el terreno y ver el avance de la construcción en persona.',
   },
@@ -71,12 +78,16 @@ export const PROJECT = {
   name: 'BOSCO Temozón',
   intro:
     'Departamentos en Temozón Norte, una de las zonas de mayor crecimiento de Mérida, desarrollados por CONSUR.',
+  // Datos del proyecto mostrados como tarjetas con imagen.
+  // Imágenes provisionales: renders tomados de la VSL. Reemplazar por los renders oficiales del cliente
+  // (mismo nombre de archivo en public/assets/imagenes/renders/ o cambiar la ruta aquí).
   facts: [
-    { label: 'Tipología', value: 'Departamentos de 1 y 2 recámaras' },
-    { label: 'Amenidades', value: 'Más de 15 amenidades' },
-    { label: 'Desarrollador', value: 'CONSUR' },
-    { label: 'Entrega estimada', value: 'Diciembre 2028' },
+    { label: 'Tipología', value: 'Departamentos de 1 y 2 recámaras', image: `${A}imagenes/renders/render-interior.webp`, alt: 'Render del interior de un departamento de BOSCO' },
+    { label: 'Amenidades', value: 'Más de 15 amenidades', image: `${A}imagenes/renders/render-alberca.webp`, alt: 'Render de la alberca y áreas verdes de BOSCO' },
+    { label: 'Desarrollador', value: 'CONSUR', image: `${A}imagenes/renders/render-fachada.webp`, alt: 'Render de la fachada de BOSCO' },
+    { label: 'Entrega estimada', value: 'Diciembre 2028', image: `${A}imagenes/obra/obra-aerea-2.webp`, alt: 'Vista aérea del avance de obra de BOSCO' },
   ],
+  galleryNote: 'Imágenes ilustrativas del proyecto. La última foto corresponde al avance de obra.',
   location:
     'Mérida es reconocida como una de las ciudades más seguras y con mejor calidad de vida de México. El proyecto está a unos 20 minutos de la playa y a 20 minutos del Centro Histórico.',
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=Temoz%C3%B3n+Norte%2C+M%C3%A9rida%2C+Yucat%C3%A1n',
@@ -161,29 +172,42 @@ export const INVESTOR_PHOTOS = [
 
 export const SECURITY = [
   {
+    icon: 'contrato',
     title: 'Contrato adherido a PROFECO',
     // [VERIFICAR] número de registro del contrato de adhesión.
     text: 'El contrato de compraventa está adherido a la Procuraduría Federal del Consumidor. Puedes revisarlo completo antes de firmar.',
   },
   {
+    icon: 'edificio',
     title: 'CONSUR, 15 años de experiencia',
     text: 'CONSUR cuenta con 15 años de experiencia en desarrollo inmobiliario.',
-    images: [
-      { src: `${A}imagenes/consur-temozon.jpg`, alt: 'Render de Centro Temozón, proyecto de CONSUR' },
-      { src: `${A}imagenes/consur-mio.jpg`, alt: 'Render de MIO, proyecto de CONSUR' },
-    ],
-    imagesCaption: 'Otros proyectos de CONSUR',
   },
   {
+    icon: 'escudo',
     title: 'Licencias y permisos vigentes',
     // [VERIFICAR] licencias y factibilidades vigentes.
     text: 'BOSCO cuenta con licencia de construcción, factibilidades y permisos municipales. Puedes solicitarlos durante tu asesoría.',
   },
   {
+    icon: 'persona',
     title: `${ADVISOR.name.split(' ')[0]} también invirtió aquí`,
     text: 'No solo recomienda el proyecto: decidió poner su propio dinero en él.',
   },
 ];
+
+// Collage de la sección de seguridad: foto principal + renders de otros proyectos de CONSUR.
+export const SECURITY_MEDIA = {
+  main: {
+    src: `${A}imagenes/construccion.webp`,
+    alt: `${ADVISOR.name} recorriendo la obra de BOSCO`,
+    tag: `${ADVISOR.name.split(' ')[0]} en la obra de BOSCO`,
+  },
+  extra: [
+    { src: `${A}imagenes/consur-temozon.jpg`, alt: 'Render de Centro Temozón, proyecto de CONSUR' },
+    { src: `${A}imagenes/consur-mio.jpg`, alt: 'Render de MIO, proyecto de CONSUR' },
+  ],
+  caption: 'Otros proyectos de CONSUR: Centro Temozón y MIO.',
+};
 
 export const FINAL_CTA = {
   title: 'El mejor momento para <em>informarte es hoy.</em>',

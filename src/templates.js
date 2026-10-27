@@ -4,8 +4,9 @@
 import { ASSET_BASE as A, ROUTES } from './config.js';
 import {
   ADVISOR, BENEFITS, FINAL_CTA, FLAGS, HERO, INVESTOR_PHOTOS, MESSAGES, NEWS, OBRA, PROJECT,
-  SECURITY, TESTIMONIALS,
+  SECURITY, SECURITY_MEDIA, TESTIMONIALS,
 } from './content.js';
+import { iconBox } from './icons.js';
 import { ctaLink, esc, footerHTML, img, navHTML } from './ui.js';
 import { vslHTML } from './vsl.js';
 
@@ -13,10 +14,12 @@ const pad = (n) => String(n).padStart(2, '0');
 
 const heroSection = () => `
 <section class="hero" id="inicio" aria-labelledby="hero-title">
-  <div class="hero-video">${vslHTML()}</div>
-  <div class="wrap hero-copy">
+  <div class="wrap hero-offer">
     <h1 id="hero-title">${HERO.titleHTML}</h1>
     <p class="lead">${esc(HERO.lead)}</p>
+  </div>
+  <div class="hero-video">${vslHTML()}</div>
+  <div class="wrap hero-copy">
     <div class="hero-cta">
       ${ctaLink(HERO.cta, { cls: 'btn-lg', id: 'hero-cta', track: 'hero_cta' })}
       <p class="microcopy">${esc(HERO.microcopy)}</p>
@@ -27,21 +30,34 @@ const heroSection = () => `
   </div>
 </section>`;
 
+const benefitCard = (b) =>
+  b.highlight
+    ? `
+        <article class="benefit benefit-highlight">
+          ${b.chip ? `<span class="benefit-chip">${esc(b.chip)}</span>` : ''}
+          <div>
+            <p class="benefit-figure" aria-hidden="true">${esc(b.figure)}<span>%</span></p>
+            <h3>${esc(b.title)}</h3>
+            <p>${esc(b.text)}</p>
+            ${b.note ? `<p class="benefit-note">${esc(b.note)}</p>` : ''}
+          </div>
+        </article>`
+    : `
+        <article class="benefit">
+          ${iconBox(b.icon)}
+          <div>
+            <h3>${esc(b.title)}</h3>
+            <p>${esc(b.text)}</p>
+          </div>
+        </article>`;
+
 const benefitsSection = () => `
 <section class="section" id="beneficios" aria-labelledby="beneficios-title">
   <div class="wrap">
     <p class="eyebrow">Beneficios</p>
     <h2 id="beneficios-title">Todo lo que obtienes <em>al invertir en BOSCO.</em></h2>
     <div class="benefits">
-      ${BENEFITS.map(
-        (b, i) => `
-        <article class="card benefit${b.highlight ? ' benefit-highlight' : ''}">
-          ${b.highlight ? '<p class="big-number" aria-hidden="true">15<span>%</span></p>' : `<span class="num">${pad(i + 1)}</span>`}
-          <h3>${esc(b.title)}</h3>
-          <p>${esc(b.text)}</p>
-          ${b.note ? `<p class="fine">${esc(b.note)}</p>` : ''}
-        </article>`
-      ).join('')}
+      ${BENEFITS.map(benefitCard).join('')}
     </div>
     ${
       FLAGS.plusvaliaTable
@@ -60,9 +76,6 @@ const projectSection = () => `
         <p class="eyebrow">El proyecto</p>
         <h2 id="proyecto-title">${esc(PROJECT.name)}, <em>norte de Mérida.</em></h2>
         <p class="section-intro">${esc(PROJECT.intro)}</p>
-        <dl class="facts">
-          ${PROJECT.facts.map((f) => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('')}
-        </dl>
       </div>
       <div class="location card">
         <p class="eyebrow">Ubicación</p>
@@ -71,6 +84,22 @@ const projectSection = () => `
         <a class="text-link" href="${esc(PROJECT.mapUrl)}" target="_blank" rel="noopener">${esc(PROJECT.mapLabel)} <span aria-hidden="true">↗</span></a>
       </div>
     </div>
+
+    <ul class="project-gallery" aria-label="Datos del proyecto">
+      ${PROJECT.facts
+        .map(
+          (f) => `
+        <li class="project-card">
+          <img src="${esc(f.image)}" alt="${esc(f.alt)}" loading="lazy" decoding="async">
+          <div class="project-card-text">
+            <span>${esc(f.label)}</span>
+            <strong>${esc(f.value)}</strong>
+          </div>
+        </li>`
+        )
+        .join('')}
+    </ul>
+    <p class="fine gallery-note">${esc(PROJECT.galleryNote)}</p>
 
     <h3 class="subhead">¿Por qué grandes empresas apuestan por Yucatán?</h3>
     <div class="news">
@@ -150,21 +179,27 @@ const securitySection = () => `
     <p class="eyebrow">Seguridad de tu inversión</p>
     <h2 id="seguridad-title">4 razones para invertir <em>con tranquilidad.</em></h2>
     <div class="security">
-      ${SECURITY.map(
-        (s, i) => `
-        <article class="card security-card">
-          <span class="num">${pad(i + 1)}</span>
-          <h3>${esc(s.title)}</h3>
-          <p>${esc(s.text)}</p>
-          ${
-            s.images
-              ? `<figure class="security-media"><div class="pair">${s.images
-                  .map((im) => img({ src: im.src, alt: im.alt, ratio: '3/4' }))
-                  .join('')}</div><figcaption class="fine">${esc(s.imagesCaption)}</figcaption></figure>`
-              : ''
-          }
-        </article>`
-      ).join('')}
+      <ol class="security-list">
+        ${SECURITY.map(
+          (s, i) => `
+          <li>
+            ${iconBox(s.icon)}
+            <div>
+              <span class="num">${pad(i + 1)}</span>
+              <h3>${esc(s.title)}</h3>
+              <p>${esc(s.text)}</p>
+            </div>
+          </li>`
+        ).join('')}
+      </ol>
+      <div class="security-collage">
+        <figure class="collage-main">
+          ${img({ src: SECURITY_MEDIA.main.src, alt: SECURITY_MEDIA.main.alt, ratio: '4/3.4' })}
+          <figcaption class="photo-tag"><span aria-hidden="true"></span>${esc(SECURITY_MEDIA.main.tag)}</figcaption>
+        </figure>
+        ${SECURITY_MEDIA.extra.map((im) => img({ src: im.src, alt: im.alt, ratio: '1/1' })).join('')}
+        <p class="fine collage-caption">${esc(SECURITY_MEDIA.caption)}</p>
+      </div>
     </div>
 
     <div class="advisor">
